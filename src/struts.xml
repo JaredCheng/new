@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="default" extends="struts-default">
+
+        <interceptors>
+            <interceptor name="Loginfilter" class="interceptor.Loginfilter"/>
+            <interceptor name="Authfilter" class="interceptor.Authfilter"/>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="Loginfilter"></interceptor-ref>
+                <interceptor-ref name="Authfilter"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <action name="UserAction_*" class="com.action.UserAction" method="{1}">
+            <result name="addsuccess" type="chain">UserAction_query</result>
+            <result name="delsuccess" type="chain">UserAction_query</result>
+            <result name="query" type="dispatcher">/user/usermanage.jsp</result>
+            <result name="querydetail" type="dispatcher">/user/usermanage.jsp</result>
+            <result name="loginsuccess">/index.jsp</result>
+            <result name="loginfail">/login.jsp</result>
+            <result name="edit" type="dispatcher">/user/edituser.jsp</result>
+            <result name="edited" type="chain">UserAction_query</result>
+            <result name="nologin" >/nologin.jsp</result>
+            <result name="noauth" >/noauth.jsp</result>
+            <result name="logout" >/login.jsp</result>
+            <result name="selectquery" type="dispatcher">/user/usermanage.jsp</result>
+            <interceptor-ref name="myStack"></interceptor-ref>
+        </action>
+
+    </package>
+
+    <package name="file" extends="struts-default">
+        <action name="FileAction_*" class="com.action.FileAction" method="{1}">
+            <interceptor-ref name="defaultStack">
+                <param name="fileUpload.maximumSize">2097150000</param>
+            </interceptor-ref>
+        </action>
+    </package>
+
+    <package name="aaa" extends="struts-default">
+
+        <interceptors>
+            <interceptor name="Loginfilter" class="interceptor.Loginfilter"/>
+            <interceptor name="Authfilter2" class="interceptor.Authfilter2"/>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="Loginfilter"></interceptor-ref>
+                <interceptor-ref name="Authfilter2"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <action name="NewsAction_*" class="com.action.NewsAction" method="{1}">
+            <result name="addnewsuccess" type="chain">NewsAction_query</result>
+            <result name="querynews" type="dispatcher">/news/newsmanage.jsp</result>
+            <result name="querydetail" type="dispatcher">/news/newcontent.jsp</result>
+            <result name="editnew" type="dispatcher">/news/editnew.jsp</result>
+            <result name="editednew" type="chain">NewsAction_query</result>
+            <result name="delsuccess" type="chain">NewsAction_query</result>
+            <result name="nologin" >/nologin.jsp</result>
+            <result name="noauth" >/noauth.jsp</result>
+            <result name="logout" >/login.jsp</result>
+            <result name="selectquery" type="dispatcher">/news/newsmanage.jsp</result>
+            <interceptor-ref name="myStack"></interceptor-ref>
+        </action>
+    </package>
+
+</struts>
